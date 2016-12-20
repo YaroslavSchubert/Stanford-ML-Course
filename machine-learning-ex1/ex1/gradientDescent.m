@@ -30,7 +30,7 @@ for iter = 1:num_iters
     h = X * theta;
     err = h - y;
     gradient = alpha * (1/m)*(X' * err);
-    theta = theta - gradient
+    theta = theta - gradient;
 
     % ============================================================
 

@@ -100,17 +100,71 @@ fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
 fprintf('\n');
 
+
+% ======================
+fprintf('Trying with different alpha & ites: \n'); 
+alpha1 = 0.03;
+alpha2 = 0.09;
+alpha3 = 0.3;
+alpha4 = 0.9;
+
+num_iters = 50;
+
+theta1 = zeros(3, 1);
+[theta1, J1] = gradientDescentMulti(X, y, theta1, alpha1, num_iters);
+
+theta2 = zeros(3, 1);
+[theta2, J2] = gradientDescentMulti(X, y, theta2, alpha2, num_iters);
+
+theta3 = zeros(3, 1);
+[theta3, J3] = gradientDescentMulti(X, y, theta3, alpha3, num_iters);
+
+theta4 = zeros(3, 1);
+[theta4, J4] = gradientDescentMulti(X, y, theta4, alpha4, num_iters);
+
+% Plot the convergence graph
+figure;
+plot(1:numel(J1), J1, '-r', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+hold on;
+plot(1:numel(J2), J2, '-g', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+hold on;
+plot(1:numel(J3), J3, '-b', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+hold on;
+plot(1:numel(J4), J4, '-y', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+
+% Display gradient descent's result
+fprintf('Theta computed from gradient descent: \n');
+fprintf(' %f \n', theta);
+
+fprintf('\n');
+
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
 price = 0; % You should change this
 
-
+price = [1, (1650-mu(1))/sigma(1), (3-mu(2)/sigma(2))] *theta;
+price1 = [1, (1650-mu(1))/sigma(1), (3-mu(2)/sigma(2))] *theta1;
+price2 = [1, (1650-mu(1))/sigma(1), (3-mu(2)/sigma(2))] *theta2;
+price3 = [1, (1650-mu(1))/sigma(1), (3-mu(2)/sigma(2))] *theta3;
+price4 = [1, (1650-mu(1))/sigma(1), (3-mu(2)/sigma(2))] *theta4;
 % ============================================================
 
 fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
          '(using gradient descent):\n $%f\n'], price);
+fprintf('1 %f \n', price1);
+fprintf('2 %f \n', price2);
+fprintf('3 %f \n', price3);
+fprintf('4 %f \n', price4);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -150,7 +204,7 @@ fprintf('\n');
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 price = 0; % You should change this
-
+price = [1, 1650, 3] *theta;
 
 % ============================================================
 

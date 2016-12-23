@@ -21,19 +21,13 @@ grad = zeros(size(theta));
 %
 
 h = sigmoid(X*theta);
-J = (-y'*log(h) - (1 - y)'*log(1 - h))/m;
+J = (y'*log(h) + (1-y)'*log(1-h))/-m;
 
-err = h - y;
-grad = (X' * err)/m;
+grad = X'*(h-y)/m;
 
 % =============================================================
 
 end
 
-% h = sigmoid(X*theta);
 
-% J = -1/m * (y*log(h) + (1-y)*log(1-h));  
-
-% err = h - y;
-% grad = (1/m)*(X' * err);
 

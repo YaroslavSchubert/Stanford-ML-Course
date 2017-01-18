@@ -16,7 +16,7 @@
 %
 
 %% Initialization
-clear ; close all; clc
+% clear ; close all; clc
 
 %% =========== Part 1: Loading and Visualizing Data =============
 %  We start the exercise by first loading and visualizing the dataset. 
@@ -164,7 +164,7 @@ pause;
 %  lambda to see how the fit and learning curve change.
 %
 
-lambda = 0;
+lambda = 1;
 [theta] = trainLinearReg(X_poly, y, lambda);
 
 % Plot training data and fit
@@ -218,3 +218,68 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+
+%% =========== Part 9: Computing test set error =============
+%
+fprintf('Part 9: Computing test set error.\n');
+
+lambda = 3;
+
+[theta_tr] = trainLinearReg(X_poly,y,lambda);
+[err_train, grad] = linearRegCostFunction(X_poly,y,theta_tr, 0);
+[err_val, grad] = linearRegCostFunction(X_poly_val,yval,theta_tr, 0);
+[err_test, grad] = linearRegCostFunction(X_poly_test,ytest,theta_tr, 0);
+
+fprintf('lambda=%f\terr_train=%f\terr_val=%f\terr_test=%f\n',
+        lambda,err_train, err_val, err_test);
+
+%% =========== Part 10: Plotting learning curves with randomly selected examples =============
+%
+fprintf('Part 10: Plotting learning curves with randomly selected examples.\n');
+
+lambda = 0.03;
+n=50;
+m = size(X, 1);
+
+error_train = zeros(m, 1);
+error_val   = zeros(m, 1);
+
+for k = 1:n
+    for i = 1:m   
+        rndIDX = randi(m,i,1);
+
+        Xtr = X_poly(rndIDX,:);
+        ytr = y(rndIDX,:);
+        Xval_r = X_poly_val(rndIDX,:);
+        yval_r = yval(rndIDX,:);
+
+        [theta_tr] = trainLinearReg(Xtr,ytr,lambda);
+        [e_tr, grad] = linearRegCostFunction(Xtr,ytr,theta_tr, 0);
+        [e_val, grad] = linearRegCostFunction(Xval_r,yval_r,theta_tr, 0);
+
+        error_train(i) = error_train(i) + e_tr;
+        error_val(i)   = error_val(i)   + e_val;
+    end
+end
+
+error_train_avg = error_train / n;
+error_val_avg   = error_val   / n;
+
+% fprintf('lambda=%f\terror_train_avg=%f\terror_val_avg=%f\t\n',
+%         lambda,error_train_avg, error_val_avg);
+
+figure(1);
+plot(1:m, error_train_avg, 1:m, error_val_avg);
+
+title(sprintf('Polynomial Regression Learning Curve (lambda = %f)', lambda));
+xlabel('Number of training examples')
+ylabel('Error')
+axis([0 13 0 100])
+legend('Train', 'Cross Validation')
+
+fprintf('Polynomial Regression (lambda = %f)\n\n', lambda);
+fprintf('# Training Examples\tTrain Error\tCross Validation Error\n');
+for i = 1:m
+    fprintf('  \t%d\t\t%f\t%f\n', i, error_train_avg(i), error_val_avg(i));
+end

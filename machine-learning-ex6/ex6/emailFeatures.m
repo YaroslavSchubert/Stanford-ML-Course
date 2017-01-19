@@ -49,7 +49,12 @@ x = zeros(n, 1);
 %
 
 
-
+for i= 1:n
+    idx = find(ismember(word_indices, i));
+    if !isempty(idx)
+        x(i) = 1;
+    end
+end
 
 
 

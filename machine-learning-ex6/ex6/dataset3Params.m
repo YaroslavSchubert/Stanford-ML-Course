@@ -26,7 +26,10 @@ sigma = 0.3;
 C_array = [0.01 0.03 0.1 0.3 1 3 10 30];
 sigma_array = [0.01 0.03 0.1 0.3 1 3 10 30];
 
-error = zeros(length(C_array),length(sigma_array));
+clen = length(C_array);
+slen = length(sigma_array);
+
+error = zeros(clen, slen);
 
 x1 = X(:,1);
 x2 = X(:,2);
@@ -41,7 +44,9 @@ end
 
 min_err = min(min(error));
 
-[r,c] = find(abs(error-min_err)==min(min(abs(error-min_err))));
+idx =  find(ismember(error , min_err ))(1);
+
+[r,c] = ind2sub(size(error), idx);
 
 C = C_array(r);
 sigma = sigma_array(c);

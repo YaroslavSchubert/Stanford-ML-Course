@@ -35,7 +35,7 @@ email_contents = regexprep(email_contents, '[0-9]+', 'number');
 
 % Handle URLS
 % Look for strings starting with http:// or https://
-email_contents = regexprep(email_contents, ...
+email_contents = regexprep(email_contents, 
                            '(http|https)://[^\s]*', 'httpaddr');
 
 % Handle Email Addresses
@@ -99,7 +99,11 @@ while ~isempty(email_contents)
 
 
 
-
+    eword = str;
+    idx = find(ismember(vocabList, eword));
+    if isscalar(idx)
+       word_indices = [word_indices; idx]; 
+    end
 
 
 

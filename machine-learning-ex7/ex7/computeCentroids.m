@@ -26,7 +26,14 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+ind = cell(K,1);
 
+for i = 1:K
+    ind(i) = find(idx==i)';
+    if length(ind{i})!=0
+        centroids(i,:) = sum(X(ind{i}, :))/length(ind{i});
+    end
+end
 
 
 
